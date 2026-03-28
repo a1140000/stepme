@@ -734,6 +734,35 @@
             }
         }
     </style>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) {
+                    return;
+                }
+            }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=108284675', 'ym');
+
+        ym(108284675, 'init', {
+            ssr: true,
+            clickmap: true,
+            ecommerce: "dataLayer",
+            referrer: document.referrer,
+            url: location.href,
+            accurateTrackBounce: true,
+            trackLinks: true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/108284675" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
 </head>
 <body>
 <div class="app">
@@ -1410,36 +1439,49 @@
     }
 
     function downloadOfflineVersion() {
-    // Создаём копию текущей страницы
-    const currentHTML = document.documentElement.outerHTML;
+        // Создаём копию текущей страницы
+        const currentHTML = document.documentElement.outerHTML;
 
-    // Создаём временный DOM
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = currentHTML;
+        // Создаём временный DOM
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = currentHTML;
 
-    // Удаляем ТОЛЬКО кнопку "Скачать для офлайн-работы"
-    const downloadBtn = tempDiv.querySelector('#downloadOfflineBtn');
-    if (downloadBtn) downloadBtn.remove();
+        // Удаляем ТОЛЬКО кнопку "Скачать для офлайн-работы"
+        const downloadBtn = tempDiv.querySelector('#downloadOfflineBtn');
+        if (downloadBtn) downloadBtn.remove();
 
-    // ВАЖНО: НЕ удаляем другие кнопки!
-    // Кнопка инструкции (#showInstructionBtn) и кнопка возврата (#backToEditorBtn) остаются
+        // Удаляем Яндекс.Метрику из head
+        const head = tempDiv.querySelector('head');
+        if (head) {
+            head.querySelectorAll('script, noscript').forEach(el => {
+                const src = el.src || '';
+                const content = el.innerHTML || el.textContent || '';
+                if (src.includes('mc.yandex') || src.includes('metrika') ||
+                    content.includes('metrika') || content.includes('mc.yandex')) {
+                    el.remove();
+                }
+            });
+        }
 
-    // Получаем обработанный HTML
-    let offlineHTML = tempDiv.innerHTML;
+        // ВАЖНО: НЕ удаляем другие кнопки!
+        // Кнопка инструкции (#showInstructionBtn) и кнопка возврата (#backToEditorBtn) остаются
 
-    // Добавляем DOCTYPE
-    offlineHTML = '<!DOCTYPE html>\n' + offlineHTML;
+        // Получаем обработанный HTML
+        let offlineHTML = tempDiv.innerHTML;
 
-    const blob = new Blob([offlineHTML], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'stepme_offline.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
+        // Добавляем DOCTYPE
+        offlineHTML = '<!DOCTYPE html>\n' + offlineHTML;
+
+        const blob = new Blob([offlineHTML], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'stepme_offline.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
 
     function generateHTML() {
         const title = document.getElementById('guideTitle').value;
@@ -1526,35 +1568,35 @@ function openModalFromPreview(imgSrc){const m=document.createElement('div');m.st
     }
 
     function init() {
-    initColorPickers();
-    updateImagesContainer();
-    updatePreview();
+        initColorPickers();
+        updateImagesContainer();
+        updatePreview();
 
-    // Добавляем обработчик только если кнопка существует
-    const downloadBtn = document.getElementById('downloadOfflineBtn');
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            downloadOfflineVersion();
-        });
-    }
+        // Добавляем обработчик только если кнопка существует
+        const downloadBtn = document.getElementById('downloadOfflineBtn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                downloadOfflineVersion();
+            });
+        }
 
-    const showBtn = document.getElementById('showInstructionBtn');
-    if (showBtn) {
-        showBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            showInstruction();
-        });
-    }
+        const showBtn = document.getElementById('showInstructionBtn');
+        if (showBtn) {
+            showBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                showInstruction();
+            });
+        }
 
-    const backBtn = document.getElementById('backToEditorBtn');
-    if (backBtn) {
-        backBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            showEditor();
-        });
+        const backBtn = document.getElementById('backToEditorBtn');
+        if (backBtn) {
+            backBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                showEditor();
+            });
+        }
     }
-}
 
     init();
     document.getElementById('guideTitle').addEventListener('input', updatePreview);
