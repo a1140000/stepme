@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>StepMe · История одного часа</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1f2937;
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 0.75rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header h1 a {
+            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .header h1 a:hover {
+            opacity: 0.9;
+        }
+
+        .header .open-editor {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #e0e7ff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .header .open-editor:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .header p {
+            color: #e0e7ff;
+            font-size: 0.8rem;
+            margin-top: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            .header .open-editor {
+                font-size: 1rem;
+                padding: 0.6rem 1.5rem;
+            }
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .article-body {
+            padding: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .article-body {
+                padding: 2rem;
+            }
+        }
+
+        .article-body h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        .article-body h2:first-of-type {
+            margin-top: 0;
+        }
+
+        .article-body h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2b2b4b;
+            margin: 1.2rem 0 0.5rem 0;
+        }
+
+        .article-body p {
+            color: #334155;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .article-body ul, .article-body ol {
+            margin: 0.5rem 0 0.75rem 1.5rem;
+            color: #334155;
+        }
+
+        .article-body li {
+            margin-bottom: 0.25rem;
+        }
+
+        .article-body hr {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .article-body .badge {
+            display: inline-block;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.5rem;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.8rem;
+            font-family: monospace;
+            margin: 0 0.1rem;
+        }
+
+        .article-body .highlight-box {
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .article-body .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .article-body .stat-card {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .article-body .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .article-body .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .article-body .quote {
+            font-style: italic;
+            padding: 1rem;
+            background: #fefce8;
+            border-radius: 0.75rem;
+            border-left: 4px solid #eab308;
+            margin: 1rem 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            font-size: 0.8rem;
+            color: #e0e7ff;
+        }
+
+        .footer a {
+            color: #e0e7ff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>
+            <a href="https://a1140000.github.io/stepme/">🔥 StepMe · История одного часа</a>
+        </h1>
+        <a href="https://a1140000.github.io/stepme/" class="open-editor">✨ Открыть редактор</a>
+        <p>Как я за час написал убийцу PowerPoint и почему это не шутка</p>
+    </div>
+
+    <div class="article-card">
+        <div class="article-body">
+
+            <p><strong>Знаете эту боль?</strong> Нужно сделать инструкцию для сотрудников. Или для клиента. Или для бабушки, которая опять не может найти кнопку «пуск».</p>
+
+            <p>Вы открываете PowerPoint. Ждёте, пока он загрузится. Создаёте слайд. Вставляете картинку. Она съезжает. Выравниваете. Текст не влезает. Меняете шрифт. Опять съезжает. Сохраняете. Файл весит 50 МБ. Отправляете по почте. Не открывается. Переделываете в PDF. Слайды разъезжаются. Бабушка звонит: «А где кнопка?»</p>
+
+            <div class="quote">
+                💀 Я устал. Вы устали. Все устали.
+            </div>
+
+            <h2>⚡ А что если...</h2>
+
+            <p>Я вам скажу крамольную вещь: <strong>90% инструкций не нуждаются в анимации, плавных переходах, красивых шаблонах и встроенных 3D-моделях.</strong></p>
+
+            <p>Им нужны:</p>
+            <ul>
+                <li>Картинка</li>
+                <li>Текст</li>
+                <li>Следующая картинка</li>
+                <li>Следующий текст</li>
+            </ul>
+
+            <p>Всё.</p>
+
+            <h2>🔥 Встречайте: StepMe</h2>
+
+            <p>Это <strong>не PowerPoint</strong>. Это даже не Canva. Это <strong>хардкор</strong>.</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1 час</div>
+                    <div class="stat-label">времени на разработку</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">60 КБ</div>
+                    <div class="stat-label">вес всего приложения</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">сайт всегда доступен</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">работает без интернета</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>60 килобайт, Карл!</strong> Это меньше, чем одна фотография с вашего смартфона. PowerPoint при таком раскладе даже иконку свою не прогрузит.
+            </div>
+
+            <h2>🛠️ Что умеет этот «убийца»?</h2>
+
+            <ul>
+                <li><strong>Добавляешь картинки</strong> — до 4 на шаг, сами встают в сетку</li>
+                <li><strong>Пишешь описание</strong> — жирный, курсив, списки, выравнивание, цвет текста, цвет фона</li>
+                <li><strong>Кликаешь по картинке</strong> — она увеличивается</li>
+                <li><strong>Сохраняешь</strong> — получаешь один HTML-файл</li>
+                <li><strong>Открываешь</strong> — на любом устройстве, где есть браузер</li>
+                <li><strong>Редактируешь</strong> — загрузил старый файл, поправил, сохранил новый</li>
+            </ul>
+
+            <p>Никаких «формат не поддерживается». Никаких «установите последнюю версию». Никаких «откройте в PowerPoint».</p>
+
+            <h2>📱 На телефоне? Без проблем!</h2>
+
+            <p>Знаете, чем хорош браузер? Он есть везде. На компе, на телефоне, на планшете, на умной колонке (шучу, на колонке не пробовал).</p>
+
+            <p>PowerPoint на телефоне вы пробовали? Это ад. Кнопки размером с рисовое зернышко, всё тормозит, а если попробуешь вставить картинку — можно идти пить чай.</p>
+
+            <p>StepMe на телефоне работает. Кнопки большие, текст читается, картинки вставляются. Пальцем, без мышки.</p>
+
+            <h2>🏭 Офлайн? А как же!</h2>
+
+            <p>В текущие времена это особенно актуально. Интернет пропал? Не беда.</p>
+
+            <p>Одна кнопка — и вы скачиваете полную копию конструктора себе на компьютер. Открываете в браузере без интернета — всё работает. Картинки, текст, форматирование. Всё, как в онлайне.</p>
+
+            <p>Ваши данные никуда не уходят. Никаких серверов. Никаких регистраций. Никаких «примите cookies». Просто вы и ваши инструкции.</p>
+
+            <h2>💾 PDF? Легко!</h2>
+
+            <p>Знаете, что такое <span class="badge">Ctrl+P</span> в браузере? Это «Сохранить как PDF». Готово. Отправляйте кому угодно.</p>
+
+            <p>Но лично я предпочитаю отправлять HTML. Потому что HTML — это редактируемый формат. Прислали правки? Загрузил файл, поправил, сохранил новую версию. PDF так не умеет.</p>
+
+            <h2>🎭 «Ну какой же это убийца?»</h2>
+
+            <p>Скажете вы. И будете правы. Это <strong>не</strong> убийца PowerPoint.</p>
+
+            <p>PowerPoint — это комбайн. Он умеет всё. Анимации, переходы, 3D, встраивание видео, сложные диаграммы. И он для этого создан.</p>
+
+            <p>Но когда мне нужно сделать <strong>инструкцию</strong>, мне не нужен комбайн. Мне нужен <strong>нож</strong>. Маленький, острый, который всегда под рукой.</p>
+
+            <div class="highlight-box">
+                🔪 StepMe — это нож. Он режет ровно то, что нужно, и не пытается замесить тесто, сварить суп и выгулять собаку.
+            </div>
+
+            <h2>🚀 Для кого это?</h2>
+
+            <ul>
+                <li>Для тех, кто устал от PowerPoint</li>
+                <li>Для тех, кто делает инструкции коллегам</li>
+                <li>Для тех, кто документирует процессы</li>
+                <li>Для тех, у кого на телефоне нет офиса</li>
+                <li>Для тех, кто ценит, когда файл весит 60 КБ, а не 60 МБ</li>
+                <li>Для тех, кто не хочет зависеть от интернета</li>
+            </ul>
+
+            <h2>🎁 Что в итоге?</h2>
+
+            <p>Вы получаете:</p>
+            <ol>
+                <li><strong>Простой инструмент</strong> — без обучения</li>
+                <li><strong>Один HTML-файл</strong> — который работает везде</li>
+                <li><strong>Возможность редактировать</strong> — загрузил, поправил, сохранил</li>
+                <li><strong>Работу без интернета</strong> — скачал и забыл</li>
+                <li><strong>60 КБ</strong> — место на диске не жалко</li>
+            </ol>
+
+            <hr>
+
+            <h2>🔗 Ловите ссылку</h2>
+
+            <p style="text-align: center; font-size: 1.2rem;">
+                <strong><a href="https://a1140000.github.io/stepme/" target="_blank" style="color: #667eea;">StepMe — конструктор пошаговых инструкций</a></strong>
+            </p>
+
+            <p style="text-align: center;">Переходите. Пробуйте. Скачивайте. Зависите только от себя.</p>
+
+            <hr>
+
+            <div class="quote">
+                📢 Я написал этот инструмент за час. Он не идеален. У него нет миллиона фич. Но он решает мою проблему. Может, решит и вашу.
+            </div>
+
+            <p style="text-align: center; margin-top: 1rem;">
+                Комментируйте. Ругайте. Хвалите. Плачьте. Танцуйте.<br>
+                Этот мир уже никогда не будет прежним. Ну или хотя бы PowerPoint — точно.
+            </p>
+
+            <hr>
+
+            <p style="text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 1rem;">
+                Сделано с помощью StepMe. Да-да, иронично, но инструкцию к нему я тоже сделал в нём же.
+            </p>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="https://a1140000.github.io/stepme/">StepMe</a> · конструктор пошаговых инструкций · 60 КБ · без интернета
+    </div>
+</div>
+</body>
+</html>
