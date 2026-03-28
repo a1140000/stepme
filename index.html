@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Конструктор руководств</title>
+    <title>StepMe · Конструктор инструкций</title>
     <style>
         * {
             margin: 0;
@@ -38,12 +38,55 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .version-badge {
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.2rem 0.7rem;
+            border-radius: 2rem;
+            color: white;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+        .header-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .header-links a {
+            color: #e0e7ff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+        }
+
+        .header-links a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
         }
 
         .header p {
             color: #e0e7ff;
             font-size: 0.8rem;
-            margin-top: 0.25rem;
+            margin-top: 0.5rem;
         }
 
         .grid-layout {
@@ -52,23 +95,139 @@
             gap: 1rem;
         }
 
+        /* Стили для инструкции */
+        .instruction-container {
+            display: none;
+        }
+
+        .instruction-container.active {
+            display: block;
+        }
+
+        .instruction-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .instruction-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .instruction-card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .instruction-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2b2b4b;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        .instruction-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #475569;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .instruction-card p {
+            color: #334155;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .instruction-card ul, .instruction-card ol {
+            margin: 0.5rem 0 0.75rem 1.5rem;
+            color: #334155;
+        }
+
+        .instruction-card li {
+            margin-bottom: 0.25rem;
+        }
+
+        .instruction-card .highlight {
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .instruction-card .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .instruction-card .feature-item {
+            background: #f8fafc;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border-left: 3px solid #667eea;
+        }
+
+        .instruction-card .feature-item strong {
+            color: #2b2b4b;
+        }
+
+        .instruction-card hr {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .instruction-card .btn-tool {
+            display: inline-block;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.5rem;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            font-family: monospace;
+            margin: 0 0.1rem;
+        }
+
         @media (min-width: 768px) {
             body {
                 padding: 1.5rem;
             }
+
             .header h1 {
                 font-size: 2.5rem;
             }
+
+            .version-badge {
+                font-size: 0.85rem;
+                padding: 0.25rem 0.9rem;
+            }
+
+            .header-links a {
+                font-size: 0.95rem;
+                padding: 0.4rem 1rem;
+            }
+
             .grid-layout {
                 grid-template-columns: 1fr 1fr;
                 gap: 1.5rem;
             }
+
+            .instruction-card .card-body {
+                padding: 2rem;
+            }
         }
 
+        /* Остальные стили (карточки, редактор, превью) остаются без изменений */
         .card {
             background: white;
             border-radius: 1rem;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -102,9 +261,11 @@
             .card-header {
                 padding: 1.5rem;
             }
+
             .card-header h2 {
                 font-size: 1.5rem;
             }
+
             .card-body {
                 padding: 1.5rem;
             }
@@ -184,7 +345,8 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .rich-toolbar button {
+        .rich-toolbar button,
+        .font-size-select {
             padding: 0.5rem 0.75rem;
             background: white;
             border: 1px solid #cbd5e0;
@@ -195,6 +357,15 @@
             color: #334155;
             white-space: nowrap;
             touch-action: manipulation;
+        }
+
+        .font-size-select {
+            cursor: pointer;
+            background: white;
+        }
+
+        .font-size-select:hover {
+            background: #e2e8f0;
         }
 
         .rich-toolbar button:active {
@@ -212,28 +383,27 @@
             overflow-y: auto;
         }
 
-        /* Исправленные стили для списков */
-        .rich-content ul, 
+        .rich-content ul,
         .rich-content ol {
             margin: 0.5rem 0;
             padding-left: 1.5rem;
         }
 
-        .rich-content ul[style*="text-align: center"], 
+        .rich-content ul[style*="text-align: center"],
         .rich-content ol[style*="text-align: center"] {
             text-align: center;
             list-style-position: inside;
             padding-left: 0;
         }
 
-        .rich-content ul[style*="text-align: right"], 
+        .rich-content ul[style*="text-align: right"],
         .rich-content ol[style*="text-align: right"] {
             text-align: right;
             list-style-position: inside;
             padding-left: 0;
         }
 
-        .rich-content ul[style*="text-align: left"], 
+        .rich-content ul[style*="text-align: left"],
         .rich-content ol[style*="text-align: left"] {
             text-align: left;
             list-style-position: outside;
@@ -275,7 +445,7 @@
             background: white;
             border-radius: 1rem;
             padding: 1rem;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             display: none;
             grid-template-columns: repeat(5, 1fr);
@@ -430,7 +600,7 @@
             border-radius: 1rem;
             padding: 1rem;
             margin-bottom: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
         }
 
@@ -483,17 +653,28 @@
             margin: 0.75rem 0;
         }
 
-        .grid-1 { grid-template-columns: 1fr; }
-        .grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-3 { grid-template-columns: repeat(3, 1fr); }
-        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .grid-1 {
+            grid-template-columns: 1fr;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
 
         .preview-img-wrapper {
             aspect-ratio: 4 / 3;
             border-radius: 0.5rem;
             overflow: hidden;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .preview-img-wrapper img {
@@ -510,7 +691,6 @@
             line-height: 1.5;
         }
 
-        /* Стили для списков в превью */
         .preview-text ul,
         .preview-text ol {
             margin: 0.5rem 0;
@@ -542,11 +722,13 @@
             .preview-step {
                 padding: 1.5rem;
             }
+
             .preview-step-number {
                 width: 2.5rem;
                 height: 2.5rem;
                 font-size: 1.3rem;
             }
+
             .preview-step-title {
                 font-size: 1.3rem;
             }
@@ -554,456 +736,580 @@
     </style>
 </head>
 <body>
-    <div class="app">
-        <div class="header">
-            <h1>🛠️ Конструктор руководств</h1>
-            <p>Создавайте инструкции с картинками на телефоне и компьютере</p>
+<div class="app">
+    <div class="header">
+        <h1>
+            <a href="https://a1140000.github.io/stepme/"
+               style="text-decoration: none; background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">🛠️ StepMe · Конструктор инструкций</a>
+            <span class="version-badge">v1.01</span>
+        </h1>
+        <div class="header-links">
+            <a href="#" id="downloadOfflineBtn">📥 Скачать для офлайн-работы</a>
+            <a href="#" id="showInstructionBtn">📖 Инструкция</a>
+            <a href="#" id="backToEditorBtn" style="display: none;">← Вернуться в редактор</a>
         </div>
+        <p>Создавайте пошаговые инструкции с картинками — просто и быстро</p>
+    </div>
 
-        <div class="grid-layout">
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <h2>✏️ Редактор</h2>
-                        <p>Заполните информацию для нового шага</p>
-                    </div>
-                    <div class="header-actions">
-                        <button class="load-btn" onclick="document.getElementById('loadFileInput').click()">
-                            📂 Загрузить инструкцию
-                        </button>
-                        <input type="file" id="loadFileInput" accept=".html" style="display: none;" onchange="loadInstruction(this)">
-                    </div>
+    <!-- Блок редактора и превью -->
+    <div id="editorContainer" class="grid-layout">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>✏️ Редактор</h2>
+                    <p>Заполните информацию для нового шага</p>
                 </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label>📌 Название руководства</label>
-                        <input type="text" id="guideTitle" placeholder="Введите название" value="Моё руководство">
-                    </div>
-
-                    <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e2e8f0;">
-
-                    <h3 id="formTitle" style="margin-bottom: 1rem; font-size: 1.1rem;">➕ Добавить новый шаг</h3>
-                    
-                    <div class="form-group">
-                        <label>Название шага <span class="required">*</span></label>
-                        <input type="text" id="stepTitle" placeholder="Например: Подготовка материалов">
-                        <div id="titleError" class="error-message"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>🖼️ Картинки (до 4-х)</label>
-                        <div id="imagesContainer" class="images-grid"></div>
-                        <div id="imagesError" class="error-message"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>📝 Описание (с форматированием)</label>
-                        <div class="rich-editor" id="richEditor">
-                            <div class="rich-toolbar">
-                                <button type="button" onclick="formatText('bold')"><b>B</b></button>
-                                <button type="button" onclick="formatText('italic')"><i>I</i></button>
-                                <button type="button" onclick="formatText('underline')"><u>U</u></button>
-                                <button type="button" onclick="formatText('strikeThrough')"><s>S</s></button>
-                                <button type="button" onclick="formatText('justifyLeft')">◀</button>
-                                <button type="button" onclick="formatText('justifyCenter')">◀▶</button>
-                                <button type="button" onclick="formatText('justifyRight')">▶</button>
-                                <button type="button" onclick="formatText('insertOrderedList')">1.</button>
-                                <button type="button" onclick="formatText('insertUnorderedList')">•</button>
-                                <button type="button" onclick="formatText('indent')">↪</button>
-                                <button type="button" onclick="formatText('outdent')">↩</button>
-                                <button type="button" onclick="formatText('fontSize')">🔤</button>
-                                <div class="color-picker">
-                                    <button class="color-picker-btn" id="textColorBtn" onclick="prepareColorPicker('text')">🎨 Текст</button>
-                                    <div id="textColorPalette" class="color-palette"></div>
-                                </div>
-                                <div class="color-picker">
-                                    <button class="color-picker-btn" id="bgColorBtn" onclick="prepareColorPicker('bg')">🖌️ Фон</button>
-                                    <div id="bgColorPalette" class="color-palette"></div>
-                                </div>
-                                <button type="button" onclick="removeFormat()">🗑️</button>
-                            </div>
-                            <div id="stepDescription" class="rich-content" contenteditable="true" style="min-height: 200px;"></div>
-                        </div>
-                    </div>
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary" id="submitBtn" onclick="saveStep()">✅ Добавить шаг</button>
-                        <button type="button" class="btn btn-secondary" onclick="resetForm()">🔄 Сбросить</button>
-                        <button type="button" class="btn btn-secondary" id="cancelEditBtn" onclick="cancelEdit()" style="display: none;">❌ Отменить</button>
-                    </div>
-
-                    <div style="margin-top: 1rem;">
-                        <button type="button" class="btn btn-success" onclick="generateHTML()" style="width: 100%;">📄 Скачать HTML</button>
-                        <p style="font-size: 0.7rem; color: #64748b; margin-top: 0.5rem; text-align: center;">
-                            ⚡ Все картинки сохраняются внутри HTML
-                        </p>
-                    </div>
+                <div class="header-actions">
+                    <button class="load-btn" onclick="document.getElementById('loadFileInput').click()">
+                        📂 Загрузить инструкцию
+                    </button>
+                    <input type="file" id="loadFileInput" accept=".html" style="display: none;"
+                           onchange="loadInstruction(this)">
                 </div>
             </div>
-
-            <div class="preview card">
-                <div class="card-header">
-                    <h2>👁️ Предпросмотр</h2>
-                    <p>Как будет выглядеть руководство</p>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>📌 Название руководства</label>
+                    <input type="text" id="guideTitle" placeholder="Введите название" value="Моё руководство">
                 </div>
-                <div class="card-body">
-                    <div id="previewTitle" style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">Моё руководство</div>
-                    <div id="previewSteps" class="preview-steps">
-                        <div class="empty-state">Добавьте первый шаг</div>
+
+                <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e2e8f0;">
+
+                <h3 id="formTitle" style="margin-bottom: 1rem; font-size: 1.1rem;">➕ Добавить новый шаг</h3>
+
+                <div class="form-group">
+                    <label>Название шага <span class="required">*</span></label>
+                    <input type="text" id="stepTitle" placeholder="Например: Подготовка материалов">
+                    <div id="titleError" class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>🖼️ Картинки (до 4-х)</label>
+                    <div id="imagesContainer" class="images-grid"></div>
+                    <div id="imagesError" class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>📝 Описание (с форматированием)</label>
+                    <div class="rich-editor" id="richEditor">
+                        <div class="rich-toolbar">
+                            <button type="button" onclick="formatText('bold')"><b>B</b></button>
+                            <button type="button" onclick="formatText('italic')"><i>I</i></button>
+                            <button type="button" onclick="formatText('underline')"><u>U</u></button>
+                            <button type="button" onclick="formatText('strikeThrough')"><s>S</s></button>
+                            <button type="button" onclick="formatText('justifyLeft')">◀</button>
+                            <button type="button" onclick="formatText('justifyCenter')">◀▶</button>
+                            <button type="button" onclick="formatText('justifyRight')">▶</button>
+                            <button type="button" onclick="formatText('insertOrderedList')">1.</button>
+                            <button type="button" onclick="formatText('insertUnorderedList')">•</button>
+                            <button type="button" onclick="formatText('indent')">↪</button>
+                            <button type="button" onclick="formatText('outdent')">↩</button>
+
+                            <select id="fontSizeSelect" class="font-size-select" onchange="changeFontSize(this.value)">
+                                <option value="1">Размер 1 (мелкий)</option>
+                                <option value="2">Размер 2</option>
+                                <option value="3" selected>Размер 3 (обычный)</option>
+                                <option value="4">Размер 4</option>
+                                <option value="5">Размер 5</option>
+                                <option value="6">Размер 6</option>
+                                <option value="7">Размер 7 (крупный)</option>
+                            </select>
+
+                            <div class="color-picker">
+                                <button class="color-picker-btn" id="textColorBtn"
+                                        onclick="prepareColorPicker('text')">🎨 Текст
+                                </button>
+                                <div id="textColorPalette" class="color-palette"></div>
+                            </div>
+                            <div class="color-picker">
+                                <button class="color-picker-btn" id="bgColorBtn"
+                                        onclick="prepareColorPicker('bg')">🖌️ Фон
+                                </button>
+                                <div id="bgColorPalette" class="color-palette"></div>
+                            </div>
+                            <button type="button" onclick="removeFormat()" title="Сбросить всё форматирование">🗑️ Сброс
+                            </button>
+                        </div>
+                        <div id="stepDescription" class="rich-content" contenteditable="true"
+                             style="min-height: 200px;"></div>
                     </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" id="submitBtn" onclick="saveStep()">✅ Добавить шаг
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">🔄 Сбросить</button>
+                    <button type="button" class="btn btn-secondary" id="cancelEditBtn" onclick="cancelEdit()"
+                            style="display: none;">❌ Отменить
+                    </button>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button type="button" class="btn btn-success" onclick="generateHTML()"
+                            style="width: 100%;">📄 Скачать HTML
+                    </button>
+                    <p style="font-size: 0.7rem; color: #64748b; margin-top: 0.5rem; text-align: center;">
+                        ⚡ Все картинки сохраняются внутри HTML </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="preview card">
+            <div class="card-header">
+                <h2>👁️ Предпросмотр</h2>
+                <p>Как будет выглядеть руководство</p>
+            </div>
+            <div class="card-body">
+                <div id="previewTitle" style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">Моё руководство
+                </div>
+                <div id="previewSteps" class="preview-steps">
+                    <div class="empty-state">Добавьте первый шаг</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        let steps = [];
-        let editingStepId = null;
-        let tempImages = new Array(4).fill(null);
-        let activeColorPicker = null;
-        let savedSelection = null;
-        
-        const textColors = [
-            '#000000', '#1e293b', '#334155', '#475569', '#dc2626',
-            '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16',
-            '#10b981', '#14b8a6', '#3b82f6', '#6366f1', '#8b5cf6',
-            '#a855f7', '#ec489a', '#f43f5e', '#ffffff', '#facc15'
-        ];
-        
-        const bgColors = [
-            '#ffffff', '#fef2f2', '#fff7ed', '#fefce8', '#f0fdf4',
-            '#ecfdf5', '#ecfeff', '#eff6ff', '#f5f3ff', '#fae8ff',
-            '#fef9c3', '#fed7aa', '#fecaca', '#e0e7ff', '#cffafe',
-            '#d9f99d', '#bbf7d0', '#fbcfe8', '#e9e9e9', '#f1f5f9'
-        ];
-        
-        function createColorPalette(colors, type) {
-            return colors.map(color => `
-                <div class="color-option" style="background: ${color};" 
-                     onclick="applyColorToSelection('${type}', '${color}')" 
+    <!-- Блок инструкции (скрыт по умолчанию) -->
+    <div id="instructionContainer" class="instruction-container">
+        <div class="instruction-card card">
+            <div class="card-body">
+                <h2>📘 Как создать идеальную инструкцию за 5 минут</h2>
+                <p>Вы тратите часы на объяснения, пишете длинные письма, а коллеги всё равно переспрашивают.
+                    <strong>StepMe</strong> превращает хаос в пошаговую инструкцию с картинками за пару минут.<br>Работает
+                    <strong>без интернета</strong>, <strong>без установки</strong> и даже на
+                    <strong>телефоне</strong>. Весит 60 КБ — легче одной фотографии.</p>
+
+                <h3>✨ Главные возможности</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <strong>🌍 Онлайн / Офлайн</strong><br>Открываете сайт или скачиваете файл — работает одинаково. Данные никуда не уходят, всё на вашем устройстве.
+                    </div>
+                    <div class="feature-item">
+                        <strong>📱 Любое устройство</strong><br>На телефоне нет Word или PowerPoint? StepMe работает в браузере. Кнопки крупные, текст удобно редактировать.
+                    </div>
+                    <div class="feature-item">
+                        <strong>🔄 Редактирование готовых инструкций</strong><br>Загрузите старый HTML-файл, внесите правки и сохраните новую версию. Никаких «переделывать с нуля».
+                    </div>
+                    <div class="feature-item"><strong>📄 PDF за секунду</strong><br>В браузере нажмите <span
+                            class="btn-tool">Ctrl+P</span> (или <span
+                            class="btn-tool">Cmd+P</span>) → «Сохранить как PDF». Готово для отправки.
+                    </div>
+                </div>
+
+                <h3>⚙️ Как это работает</h3>
+                <h4>1. Создайте шаг</h4>
+                <ul>
+                    <li>Введите <strong>название</strong> шага (например, «Подготовить документы»).</li>
+                    <li>Добавьте
+                        <strong>картинки</strong> (до 4-х на шаг). Просто выберите файлы — они сразу встроятся в инструкцию.
+                    </li>
+                    <li>Напишите <strong>описание</strong>. Используйте кнопки над полем:</li>
+                </ul>
+                <p>
+                    <span class="btn-tool"><b>B</b></span> <strong>жирный</strong>,
+                    <span class="btn-tool"><i>I</i></span> <em>курсив</em>,
+                    <span class="btn-tool"><u>U</u></span> <u>подчёркнутый</u><br>
+                    <span class="btn-tool">◀</span> <span class="btn-tool">◀▶</span> <span
+                        class="btn-tool">▶</span> — выравнивание текста<br>
+                    <span class="btn-tool">1.</span> и <span class="btn-tool">•</span> — списки<br>
+                    <span class="btn-tool">🎨 Текст</span> / <span
+                        class="btn-tool">🖌️ Фон</span> — выделите слово и выберите цвет<br>
+                    <span class="btn-tool">🔤</span> — размер шрифта из выпадающего списка<br>
+                    <span class="btn-tool">🗑️ Сброс</span> — очистить всё форматирование </p>
+
+                <h4>2. Управляйте шагами</h4>
+                <ul>
+                    <li><strong>Добавить</strong> → шаг появится справа в предпросмотре</li>
+                    <li><strong>Редактировать</strong> → нажмите ✏️ на нужном шаге, измените данные и сохраните</li>
+                    <li><strong>Удалить</strong> → 🗑️ с подтверждением</li>
+                </ul>
+
+                <h4>3. Сохраните инструкцию</h4>
+                <p>Кнопка
+                    <strong>«📄 Скачать HTML»</strong> — получите один файл, который можно открыть на любом компьютере, отправить по почте или распечатать как PDF.
+                </p>
+
+                <h4>4. Если нужно исправить готовую инструкцию</h4>
+                <p>Нажмите
+                    <strong>«📂 Загрузить инструкцию»</strong>, выберите ранее сохранённый HTML-файл. Все шаги появятся в редакторе. Вносите изменения и сохраняйте новую версию.
+                </p>
+
+                <h3>💡 Секретные фишки</h3>
+                <ul>
+                    <li>
+                        <strong>Несколько картинок на шаг</strong> — 1, 2, 3 или 4 изображения автоматически расположатся в сетке. Удобно показывать разные ракурсы, сравнение «до/после» или этапы процесса.
+                    </li>
+                    <li><strong>Работа без интернета</strong> — нажмите
+                        <strong>«📥 Скачать для офлайн-работы»</strong> в шапке сайта. Сохраните файл на компьютер или телефон. Открывайте в браузере даже без Wi-Fi — всё работает, все данные локально.
+                    </li>
+                    <li>
+                        <strong>Безопасность</strong> — никаких регистраций, никаких серверов. Ваши инструкции и картинки остаются только у вас.
+                    </li>
+                </ul>
+
+                <h3>📦 Что вы получите в итоге</h3>
+                <ul>
+                    <li>Чёткую структуру: шаги с номерами, заголовками и описанием</li>
+                    <li>Картинки, которые увеличиваются по клику</li>
+                    <li>Форматирование текста (списки, цвета, выравнивание)</li>
+                    <li>Ссылку на сервис внизу — ваши клиенты будут знать, как тоже создавать понятные инструкции</li>
+                </ul>
+
+                <hr>
+
+                <p style="text-align: center; color: #64748b;">✨
+                    <strong>Готово?</strong> Откройте редактор, добавьте шаги с картинками и сохраните как HTML — получится наглядное руководство, которое можно давать новичкам, клиентам или коллегам.
+                </p>
+                <p style="text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 1rem;">Сделано с помощью StepMe — конструктора пошаговых инструкций</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let steps = [];
+    let editingStepId = null;
+    let tempImages = new Array(4).fill(null);
+    let activeColorPicker = null;
+    let savedSelection = null;
+
+    const textColors = [
+        '#000000', '#1e293b', '#334155', '#475569', '#dc2626',
+        '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16',
+        '#10b981', '#14b8a6', '#3b82f6', '#6366f1', '#8b5cf6',
+        '#a855f7', '#ec489a', '#f43f5e', '#ffffff', '#facc15'
+    ];
+
+    const bgColors = [
+        '#ffffff', '#fef2f2', '#fff7ed', '#fefce8', '#f0fdf4',
+        '#ecfdf5', '#ecfeff', '#eff6ff', '#f5f3ff', '#fae8ff',
+        '#fef9c3', '#fed7aa', '#fecaca', '#e0e7ff', '#cffafe',
+        '#d9f99d', '#bbf7d0', '#fbcfe8', '#e9e9e9', '#f1f5f9'
+    ];
+
+    function createColorPalette(colors, type) {
+        return colors.map(color => `
+                <div class="color-option" style="background: ${color};"
+                     onclick="applyColorToSelection('${type}', '${color}')"
                      title="${color}"></div>
             `).join('') + `
                 <div class="color-custom">
-                    <input type="text" placeholder="Свой цвет (HEX, rgb)" 
+                    <input type="text" placeholder="Свой цвет (HEX, rgb)"
                            onchange="applyColorToSelection('${type}', this.value)">
                 </div>
             `;
+    }
+
+    function initColorPickers() {
+        const textPalette = document.getElementById('textColorPalette');
+        const bgPalette = document.getElementById('bgColorPalette');
+        if (textPalette) textPalette.innerHTML = createColorPalette(textColors, 'text');
+        if (bgPalette) bgPalette.innerHTML = createColorPalette(bgColors, 'bg');
+    }
+
+    function prepareColorPicker(type) {
+        const editor = document.getElementById('stepDescription');
+        editor.focus();
+
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0 && !selection.isCollapsed) {
+            savedSelection = selection.getRangeAt(0).cloneRange();
+        } else {
+            savedSelection = null;
         }
-        
-        function initColorPickers() {
-            const textPalette = document.getElementById('textColorPalette');
-            const bgPalette = document.getElementById('bgColorPalette');
-            if (textPalette) textPalette.innerHTML = createColorPalette(textColors, 'text');
-            if (bgPalette) bgPalette.innerHTML = createColorPalette(bgColors, 'bg');
-        }
-        
-        function prepareColorPicker(type) {
-            const editor = document.getElementById('stepDescription');
-            editor.focus();
-            
+
+        toggleColorPicker(type);
+    }
+
+    function applyColorToSelection(type, color) {
+        const editor = document.getElementById('stepDescription');
+        editor.focus();
+
+        if (savedSelection) {
             const selection = window.getSelection();
-            if (selection.rangeCount > 0 && !selection.isCollapsed) {
-                savedSelection = selection.getRangeAt(0).cloneRange();
-            } else {
-                savedSelection = null;
+            selection.removeAllRanges();
+            selection.addRange(savedSelection);
+            if (type === 'text') {
+                document.execCommand('foreColor', false, color);
+            } else if (type === 'bg') {
+                document.execCommand('backColor', false, color);
             }
-            
-            toggleColorPicker(type);
+            savedSelection = null;
         }
-        
-        function applyColorToSelection(type, color) {
-            const editor = document.getElementById('stepDescription');
-            editor.focus();
-            
-            if (savedSelection) {
-                const selection = window.getSelection();
-                selection.removeAllRanges();
-                selection.addRange(savedSelection);
-                if (type === 'text') {
-                    document.execCommand('foreColor', false, color);
-                } else if (type === 'bg') {
-                    document.execCommand('backColor', false, color);
-                }
-                savedSelection = null;
-            }
-            
-            const palette = document.getElementById(`${type}ColorPalette`);
-            if (palette) {
-                palette.classList.remove('active');
-                activeColorPicker = null;
-            }
+
+        const palette = document.getElementById(`${type}ColorPalette`);
+        if (palette) {
+            palette.classList.remove('active');
+            activeColorPicker = null;
         }
-        
-        function toggleColorPicker(type) {
-            const palette = document.getElementById(`${type}ColorPalette`);
-            if (activeColorPicker === palette) {
-                palette.classList.remove('active');
-                activeColorPicker = null;
-            } else {
-                if (activeColorPicker) activeColorPicker.classList.remove('active');
-                palette.classList.add('active');
-                activeColorPicker = palette;
-            }
+    }
+
+    function toggleColorPicker(type) {
+        const palette = document.getElementById(`${type}ColorPalette`);
+        if (activeColorPicker === palette) {
+            palette.classList.remove('active');
+            activeColorPicker = null;
+        } else {
+            if (activeColorPicker) activeColorPicker.classList.remove('active');
+            palette.classList.add('active');
+            activeColorPicker = palette;
         }
-        
-        function formatText(command) {
-            const editor = document.getElementById('stepDescription');
-            editor.focus();
-            
-            if (command === 'fontSize') {
-                const size = prompt('Введите размер шрифта (1-7, где 3 - обычный):', '3');
-                if (size && size >= 1 && size <= 7) {
-                    document.execCommand('fontSize', false, size);
-                } else if (size) {
-                    alert('Введите число от 1 до 7');
-                }
-            } else if (command === 'justifyLeft' || command === 'justifyCenter' || command === 'justifyRight') {
-                // Проверяем, находится ли курсор внутри списка
-                const selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    let node = selection.getRangeAt(0).commonAncestorContainer;
-                    // Поднимаемся до родительского элемента списка
-                    while (node && node !== editor) {
-                        if (node.nodeName === 'UL' || node.nodeName === 'OL') {
-                            // Применяем выравнивание ко всему списку
-                            const align = command === 'justifyLeft' ? 'left' : (command === 'justifyCenter' ? 'center' : 'right');
-                            node.style.textAlign = align;
-                            // Обновляем атрибут style для корректного отображения
-                            node.setAttribute('style', `text-align: ${align};`);
-                            return;
-                        }
-                        node = node.parentNode;
-                    }
-                }
-                // Если не в списке, применяем стандартное выравнивание
-                document.execCommand(command, false, null);
-            } else {
-                document.execCommand(command, false, null);
-            }
-        }
-        
-        function removeFormat() {
-            const editor = document.getElementById('stepDescription');
-            editor.focus();
-            
-            const selection = window.getSelection();
-            
-            if (!selection.isCollapsed && selection.rangeCount > 0) {
-                document.execCommand('removeFormat', false, null);
-            } else {
-                const currentPos = getCaretPosition(editor);
-                document.execCommand('removeFormat', false, null);
-                setCaretPosition(editor, currentPos);
-            }
-        }
-        
-        function getCaretPosition(element) {
-            let position = 0;
+    }
+
+    function changeFontSize(size) {
+        const editor = document.getElementById('stepDescription');
+        editor.focus();
+        document.execCommand('fontSize', false, size);
+    }
+
+    function formatText(command) {
+        const editor = document.getElementById('stepDescription');
+        editor.focus();
+
+        if (command === 'justifyLeft' || command === 'justifyCenter' || command === 'justifyRight') {
             const selection = window.getSelection();
             if (selection.rangeCount > 0) {
-                const range = selection.getRangeAt(0);
-                const preCaretRange = range.cloneRange();
-                preCaretRange.selectNodeContents(element);
-                preCaretRange.setEnd(range.endContainer, range.endOffset);
-                position = preCaretRange.toString().length;
-            }
-            return position;
-        }
-        
-        function setCaretPosition(element, position) {
-            let range = document.createRange();
-            let sel = window.getSelection();
-            let charIndex = 0;
-            let nodeStack = [element];
-            let foundNode = null;
-            let foundOffset = 0;
-            
-            while (nodeStack.length > 0 && !foundNode) {
-                let node = nodeStack.pop();
-                if (node.nodeType === Node.TEXT_NODE) {
-                    let nextCharIndex = charIndex + node.textContent.length;
-                    if (position >= charIndex && position <= nextCharIndex) {
-                        foundNode = node;
-                        foundOffset = position - charIndex;
-                        break;
+                let node = selection.getRangeAt(0).commonAncestorContainer;
+                while (node && node !== editor) {
+                    if (node.nodeName === 'UL' || node.nodeName === 'OL') {
+                        const align = command === 'justifyLeft' ? 'left' : (command === 'justifyCenter' ? 'center' : 'right');
+                        node.style.textAlign = align;
+                        node.setAttribute('style', `text-align: ${align};`);
+                        return;
                     }
-                    charIndex = nextCharIndex;
-                } else {
-                    let childNodes = Array.from(node.childNodes);
-                    for (let i = childNodes.length - 1; i >= 0; i--) {
-                        nodeStack.push(childNodes[i]);
-                    }
+                    node = node.parentNode;
                 }
             }
-            
-            if (foundNode) {
-                range.setStart(foundNode, foundOffset);
-                range.collapse(true);
-                sel.removeAllRanges();
-                sel.addRange(range);
+            document.execCommand(command, false, null);
+        } else {
+            document.execCommand(command, false, null);
+        }
+    }
+
+    function removeFormat() {
+        const editor = document.getElementById('stepDescription');
+        editor.focus();
+
+        const selection = window.getSelection();
+
+        if (!selection.isCollapsed && selection.rangeCount > 0) {
+            document.execCommand('removeFormat', false, null);
+        } else {
+            const currentPos = getCaretPosition(editor);
+            document.execCommand('removeFormat', false, null);
+            setCaretPosition(editor, currentPos);
+        }
+    }
+
+    function getCaretPosition(element) {
+        let position = 0;
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            position = preCaretRange.toString().length;
+        }
+        return position;
+    }
+
+    function setCaretPosition(element, position) {
+        let range = document.createRange();
+        let sel = window.getSelection();
+        let charIndex = 0;
+        let nodeStack = [element];
+        let foundNode = null;
+        let foundOffset = 0;
+
+        while (nodeStack.length > 0 && !foundNode) {
+            let node = nodeStack.pop();
+            if (node.nodeType === Node.TEXT_NODE) {
+                let nextCharIndex = charIndex + node.textContent.length;
+                if (position >= charIndex && position <= nextCharIndex) {
+                    foundNode = node;
+                    foundOffset = position - charIndex;
+                    break;
+                }
+                charIndex = nextCharIndex;
+            } else {
+                let childNodes = Array.from(node.childNodes);
+                for (let i = childNodes.length - 1; i >= 0; i--) {
+                    nodeStack.push(childNodes[i]);
+                }
             }
         }
-        
-        function updateImagesContainer() {
-            const container = document.getElementById('imagesContainer');
-            container.innerHTML = '';
-            for (let i = 0; i < 4; i++) {
-                const div = document.createElement('div');
-                div.className = 'image-slot';
-                div.innerHTML = `
+
+        if (foundNode) {
+            range.setStart(foundNode, foundOffset);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+    }
+
+    function updateImagesContainer() {
+        const container = document.getElementById('imagesContainer');
+        container.innerHTML = '';
+        for (let i = 0; i < 4; i++) {
+            const div = document.createElement('div');
+            div.className = 'image-slot';
+            div.innerHTML = `
                     <input type="file" accept="image/*" onchange="previewImage(this, ${i})">
                     <div id="preview_${i}" class="image-preview"></div>
                 `;
-                container.appendChild(div);
-                if (tempImages[i]) {
-                    const previewDiv = document.getElementById(`preview_${i}`);
-                    if (previewDiv) {
-                        previewDiv.innerHTML = `
+            container.appendChild(div);
+            if (tempImages[i]) {
+                const previewDiv = document.getElementById(`preview_${i}`);
+                if (previewDiv) {
+                    previewDiv.innerHTML = `
                             <div style="position: relative;">
                                 <img src="${tempImages[i]}" style="width: 100%; border-radius: 0.5rem;">
                                 <button class="remove-img" onclick="clearImage(${i})">✕</button>
                             </div>
                         `;
-                    }
                 }
             }
         }
-        
-        function previewImage(input, index) {
-            const previewDiv = document.getElementById(`preview_${index}`);
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewDiv.innerHTML = `
+    }
+
+    function previewImage(input, index) {
+        const previewDiv = document.getElementById(`preview_${index}`);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewDiv.innerHTML = `
                         <div style="position: relative;">
                             <img src="${e.target.result}" style="width: 100%; border-radius: 0.5rem;">
                             <button class="remove-img" onclick="clearImage(${index})">✕</button>
                         </div>
                     `;
-                    tempImages[index] = e.target.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
+                tempImages[index] = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
         }
-        
-        function clearImage(index) {
-            const input = document.querySelector(`.image-slot:nth-child(${index+1}) input`);
-            if (input) input.value = '';
-            tempImages[index] = null;
-            const previewDiv = document.getElementById(`preview_${index}`);
-            if (previewDiv) previewDiv.innerHTML = '';
+    }
+
+    function clearImage(index) {
+        const input = document.querySelector(`.image-slot:nth-child(${index + 1}) input`);
+        if (input) input.value = '';
+        tempImages[index] = null;
+        const previewDiv = document.getElementById(`preview_${index}`);
+        if (previewDiv) previewDiv.innerHTML = '';
+    }
+
+    function getCurrentImages() {
+        return tempImages.filter(img => img !== null);
+    }
+
+    function validateForm() {
+        let isValid = true;
+        const title = document.getElementById('stepTitle').value.trim();
+        const titleError = document.getElementById('titleError');
+        const imagesError = document.getElementById('imagesError');
+        const richEditor = document.getElementById('richEditor');
+        const description = document.getElementById('stepDescription').innerHTML.trim();
+
+        if (!title) {
+            titleError.textContent = '⚠️ Введите название шага';
+            titleError.style.display = 'block';
+            isValid = false;
+        } else {
+            titleError.style.display = 'none';
         }
-        
-        function getCurrentImages() {
-            return tempImages.filter(img => img !== null);
+
+        const images = getCurrentImages();
+        if (images.length === 0 && (!description || description === '<br>' || description === '')) {
+            imagesError.textContent = '⚠️ Добавьте картинку или описание';
+            imagesError.style.display = 'block';
+            richEditor.classList.add('error');
+            isValid = false;
+        } else {
+            imagesError.style.display = 'none';
+            richEditor.classList.remove('error');
         }
-        
-        function validateForm() {
-            let isValid = true;
-            const title = document.getElementById('stepTitle').value.trim();
-            const titleError = document.getElementById('titleError');
-            const imagesError = document.getElementById('imagesError');
-            const richEditor = document.getElementById('richEditor');
-            const description = document.getElementById('stepDescription').innerHTML.trim();
-            
-            if (!title) {
-                titleError.textContent = '⚠️ Введите название шага';
-                titleError.style.display = 'block';
-                isValid = false;
-            } else {
-                titleError.style.display = 'none';
+        return isValid;
+    }
+
+    function saveStep() {
+        if (!validateForm()) return;
+
+        const title = document.getElementById('stepTitle').value.trim();
+        const description = document.getElementById('stepDescription').innerHTML;
+        const images = getCurrentImages();
+
+        if (editingStepId) {
+            const index = steps.findIndex(s => s.id === editingStepId);
+            if (index !== -1) {
+                steps[index] = {...steps[index], title, description: description || '<p>Нет описания</p>', images};
             }
-            
-            const images = getCurrentImages();
-            if (images.length === 0 && (!description || description === '<br>' || description === '')) {
-                imagesError.textContent = '⚠️ Добавьте картинку или описание';
-                imagesError.style.display = 'block';
-                richEditor.classList.add('error');
-                isValid = false;
-            } else {
-                imagesError.style.display = 'none';
-                richEditor.classList.remove('error');
-            }
-            return isValid;
+            editingStepId = null;
+            document.getElementById('formTitle').innerHTML = '➕ Добавить новый шаг';
+            document.getElementById('submitBtn').innerHTML = '✅ Добавить шаг';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+        } else {
+            steps.push({id: Date.now(), title, description: description || '<p>Нет описания</p>', images});
         }
-        
-        function saveStep() {
-            if (!validateForm()) return;
-            
-            const title = document.getElementById('stepTitle').value.trim();
-            const description = document.getElementById('stepDescription').innerHTML;
-            const images = getCurrentImages();
-            
-            if (editingStepId) {
-                const index = steps.findIndex(s => s.id === editingStepId);
-                if (index !== -1) {
-                    steps[index] = { ...steps[index], title, description: description || '<p>Нет описания</p>', images };
-                }
-                editingStepId = null;
-                document.getElementById('formTitle').innerHTML = '➕ Добавить новый шаг';
-                document.getElementById('submitBtn').innerHTML = '✅ Добавить шаг';
-                document.getElementById('cancelEditBtn').style.display = 'none';
-            } else {
-                steps.push({ id: Date.now(), title, description: description || '<p>Нет описания</p>', images });
-            }
+        resetForm();
+        updatePreview();
+    }
+
+    function editStep(id) {
+        const step = steps.find(s => s.id === id);
+        if (!step) return;
+        editingStepId = id;
+        document.getElementById('stepTitle').value = step.title;
+        document.getElementById('stepDescription').innerHTML = step.description;
+        tempImages = new Array(4).fill(null);
+        step.images.forEach((img, idx) => {
+            if (idx < 4) tempImages[idx] = img;
+        });
+        updateImagesContainer();
+        document.getElementById('formTitle').innerHTML = '✏️ Редактирование шага';
+        document.getElementById('submitBtn').innerHTML = '💾 Сохранить';
+        document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+        document.querySelector('.card').scrollIntoView({behavior: 'smooth'});
+    }
+
+    function cancelEdit() {
+        if (confirm('Отменить редактирование?')) {
+            editingStepId = null;
             resetForm();
+            document.getElementById('formTitle').innerHTML = '➕ Добавить новый шаг';
+            document.getElementById('submitBtn').innerHTML = '✅ Добавить шаг';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+        }
+    }
+
+    function deleteStep(id) {
+        if (confirm('Удалить этот шаг?')) {
+            steps = steps.filter(s => s.id !== id);
             updatePreview();
         }
-        
-        function editStep(id) {
-            const step = steps.find(s => s.id === id);
-            if (!step) return;
-            editingStepId = id;
-            document.getElementById('stepTitle').value = step.title;
-            document.getElementById('stepDescription').innerHTML = step.description;
-            tempImages = new Array(4).fill(null);
-            step.images.forEach((img, idx) => { if (idx < 4) tempImages[idx] = img; });
-            updateImagesContainer();
-            document.getElementById('formTitle').innerHTML = '✏️ Редактирование шага';
-            document.getElementById('submitBtn').innerHTML = '💾 Сохранить';
-            document.getElementById('cancelEditBtn').style.display = 'inline-flex';
-            document.querySelector('.card').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        document.getElementById('stepTitle').value = '';
+        document.getElementById('stepDescription').innerHTML = '';
+        tempImages = new Array(4).fill(null);
+        updateImagesContainer();
+        document.getElementById('titleError').style.display = 'none';
+        document.getElementById('imagesError').style.display = 'none';
+        document.getElementById('richEditor').classList.remove('error');
+        savedSelection = null;
+    }
+
+    function updatePreview() {
+        const title = document.getElementById('guideTitle').value;
+        document.getElementById('previewTitle').innerHTML = title;
+        const previewContainer = document.getElementById('previewSteps');
+        if (steps.length === 0) {
+            previewContainer.innerHTML = '<div class="empty-state">Добавьте первый шаг</div>';
+            return;
         }
-        
-        function cancelEdit() {
-            if (confirm('Отменить редактирование?')) {
-                editingStepId = null;
-                resetForm();
-                document.getElementById('formTitle').innerHTML = '➕ Добавить новый шаг';
-                document.getElementById('submitBtn').innerHTML = '✅ Добавить шаг';
-                document.getElementById('cancelEditBtn').style.display = 'none';
-            }
-        }
-        
-        function deleteStep(id) {
-            if (confirm('Удалить этот шаг?')) {
-                steps = steps.filter(s => s.id !== id);
-                updatePreview();
-            }
-        }
-        
-        function resetForm() {
-            document.getElementById('stepTitle').value = '';
-            document.getElementById('stepDescription').innerHTML = '';
-            tempImages = new Array(4).fill(null);
-            updateImagesContainer();
-            document.getElementById('titleError').style.display = 'none';
-            document.getElementById('imagesError').style.display = 'none';
-            document.getElementById('richEditor').classList.remove('error');
-            savedSelection = null;
-        }
-        
-        function updatePreview() {
-            const title = document.getElementById('guideTitle').value;
-            document.getElementById('previewTitle').innerHTML = title;
-            const previewContainer = document.getElementById('previewSteps');
-            if (steps.length === 0) {
-                previewContainer.innerHTML = '<div class="empty-state">Добавьте первый шаг</div>';
-                return;
-            }
-            previewContainer.innerHTML = steps.map((step, index) => {
-                const gridClass = step.images.length > 0 ? `grid-${Math.min(step.images.length, 4)}` : '';
-                return `
+        previewContainer.innerHTML = steps.map((step, index) => {
+            const gridClass = step.images.length > 0 ? `grid-${Math.min(step.images.length, 4)}` : '';
+            return `
                     <div class="preview-step">
                         <div class="preview-step-header">
                             <div class="preview-step-number">${index + 1}</div>
@@ -1020,94 +1326,126 @@
                         <div class="preview-text">${step.description}</div>
                     </div>
                 `;
-            }).join('');
-        }
-        
-        function openModalFromPreview(imgSrc) {
-            const modal = document.createElement('div');
-            modal.style.position = 'fixed';
-            modal.style.top = '0';
-            modal.style.left = '0';
-            modal.style.width = '100%';
-            modal.style.height = '100%';
-            modal.style.backgroundColor = 'rgba(0,0,0,0.95)';
-            modal.style.zIndex = '10000';
-            modal.style.display = 'flex';
-            modal.style.alignItems = 'center';
-            modal.style.justifyContent = 'center';
-            modal.style.cursor = 'pointer';
-            modal.onclick = () => modal.remove();
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            img.style.maxWidth = '90vw';
-            img.style.maxHeight = '90vh';
-            img.style.borderRadius = '1rem';
-            modal.appendChild(img);
-            document.body.appendChild(modal);
-        }
-        
-        function loadInstruction(input) {
-            const file = input.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const htmlContent = e.target.result;
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlContent, 'text/html');
-                
-                const titleElem = doc.querySelector('.page-header h1');
-                if (titleElem) {
-                    let title = titleElem.textContent;
-                    title = title.replace('📘', '').trim();
-                    document.getElementById('guideTitle').value = title;
-                }
-                
-                const stepElements = doc.querySelectorAll('.step');
-                const loadedSteps = [];
-                
-                stepElements.forEach((stepEl, index) => {
-                    const titleEl = stepEl.querySelector('.step-title');
-                    const title = titleEl ? titleEl.textContent.trim() : `Шаг ${index + 1}`;
-                    
-                    const textBlock = stepEl.querySelector('.text-block');
-                    let description = textBlock ? textBlock.innerHTML : '';
-                    
-                    const images = [];
-                    const imgWrappers = stepEl.querySelectorAll('.preview-img-wrapper');
-                    imgWrappers.forEach(wrapper => {
-                        const img = wrapper.querySelector('img');
-                        if (img && img.src) {
-                            images.push(img.src);
-                        }
-                    });
-                    
-                    loadedSteps.push({
-                        id: Date.now() + index,
-                        title: title,
-                        description: description,
-                        images: images
-                    });
+        }).join('');
+    }
+
+    function openModalFromPreview(imgSrc) {
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.95)';
+        modal.style.zIndex = '10000';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.style.cursor = 'pointer';
+        modal.onclick = () => modal.remove();
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.borderRadius = '1rem';
+        modal.appendChild(img);
+        document.body.appendChild(modal);
+    }
+
+    function loadInstruction(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const htmlContent = e.target.result;
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+
+            const titleElem = doc.querySelector('.page-header h1');
+            if (titleElem) {
+                let title = titleElem.textContent;
+                title = title.replace('📘', '').trim();
+                document.getElementById('guideTitle').value = title;
+            }
+
+            const stepElements = doc.querySelectorAll('.step');
+            const loadedSteps = [];
+
+            stepElements.forEach((stepEl, index) => {
+                const titleEl = stepEl.querySelector('.step-title');
+                const title = titleEl ? titleEl.textContent.trim() : `Шаг ${index + 1}`;
+
+                const textBlock = stepEl.querySelector('.text-block');
+                let description = textBlock ? textBlock.innerHTML : '';
+
+                const images = [];
+                const imgWrappers = stepEl.querySelectorAll('.preview-img-wrapper');
+                imgWrappers.forEach(wrapper => {
+                    const img = wrapper.querySelector('img');
+                    if (img && img.src) {
+                        images.push(img.src);
+                    }
                 });
-                
-                if (loadedSteps.length > 0) {
-                    steps = loadedSteps;
-                    updatePreview();
-                    resetForm();
-                    alert(`✅ Загружено ${loadedSteps.length} шагов из инструкции`);
-                } else {
-                    alert('Не удалось найти шаги в загруженном файле');
-                }
-            };
-            reader.readAsText(file, 'UTF-8');
-            input.value = '';
-        }
-        
-        function generateHTML() {
-            const title = document.getElementById('guideTitle').value;
-            const finalSteps = steps.map((step, index) => {
-                const gridClass = step.images.length > 0 ? `grid-${Math.min(step.images.length, 4)}` : '';
-                return `
+
+                loadedSteps.push({
+                    id: Date.now() + index,
+                    title: title,
+                    description: description,
+                    images: images
+                });
+            });
+
+            if (loadedSteps.length > 0) {
+                steps = loadedSteps;
+                updatePreview();
+                resetForm();
+                alert(`✅ Загружено ${loadedSteps.length} шагов из инструкции`);
+            } else {
+                alert('Не удалось найти шаги в загруженном файле');
+            }
+        };
+        reader.readAsText(file, 'UTF-8');
+        input.value = '';
+    }
+
+    function downloadOfflineVersion() {
+    // Создаём копию текущей страницы
+    const currentHTML = document.documentElement.outerHTML;
+
+    // Создаём временный DOM
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = currentHTML;
+
+    // Удаляем ТОЛЬКО кнопку "Скачать для офлайн-работы"
+    const downloadBtn = tempDiv.querySelector('#downloadOfflineBtn');
+    if (downloadBtn) downloadBtn.remove();
+
+    // ВАЖНО: НЕ удаляем другие кнопки!
+    // Кнопка инструкции (#showInstructionBtn) и кнопка возврата (#backToEditorBtn) остаются
+
+    // Получаем обработанный HTML
+    let offlineHTML = tempDiv.innerHTML;
+
+    // Добавляем DOCTYPE
+    offlineHTML = '<!DOCTYPE html>\n' + offlineHTML;
+
+    const blob = new Blob([offlineHTML], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'stepme_offline.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+    function generateHTML() {
+        const title = document.getElementById('guideTitle').value;
+        const finalSteps = steps.map((step, index) => {
+            const gridClass = step.images.length > 0 ? `grid-${Math.min(step.images.length, 4)}` : '';
+            return `
         <section class="step">
             <div class="step-header">
                 <span class="step-number">${index + 1}</span>
@@ -1121,9 +1459,9 @@
             </div>` : ''}
             <div class="text-block">${step.description}</div>
         </section>`;
-            }).join('');
-            
-            const fullHTML = `<!DOCTYPE html>
+        }).join('');
+
+        const fullHTML = `<!DOCTYPE html>
 <html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title><style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;background:#fafafa;color:#1e293b;line-height:1.6;padding:1rem}
@@ -1149,40 +1487,83 @@ body{font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;backgr
 .preview-img-wrapper{aspect-ratio:4/3;border-radius:0.5rem;overflow:hidden;cursor:pointer}
 .preview-img-wrapper img{width:100%;height:100%;object-fit:cover}
 @media(max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
-</style></head><body><div class="container"><div class="page-header"><h1>📘 ${escapeHtml(title)}</h1></div>${finalSteps}</div><script>
+.footer{text-align:center;margin-top:3rem;padding-top:1rem;font-size:0.8rem;color:#64748b}
+.footer a{color:#667eea;text-decoration:none}
+.footer a:hover{text-decoration:underline}
+</style></head><body><div class="container"><div class="page-header"><h1>📘 ${escapeHtml(title)}</h1></div>${finalSteps}<div class="footer">Создано с помощью <a href="https://a1140000.github.io/stepme/" target="_blank">StepMe</a> — конструктор пошаговых инструкций</div></div><script>
 function openModalFromPreview(imgSrc){const m=document.createElement('div');m.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer';m.onclick=()=>m.remove();const i=document.createElement('img');i.src=imgSrc;i.style.maxWidth='90vw';i.style.maxHeight='90vh';i.style.borderRadius='1rem';m.appendChild(i);document.body.appendChild(m);}
 <\/script></body></html>`;
-            
-            const blob = new Blob([fullHTML], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${title.replace(/[^a-zа-яё0-9]/gi, '_')}.html`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            alert('✅ HTML файл сохранён!');
-        }
-        
-        function escapeHtml(str) {
-            return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
-        }
-        
-        function init() {
-            initColorPickers();
-            updateImagesContainer();
-            updatePreview();
-        }
-        
-        init();
-        document.getElementById('guideTitle').addEventListener('input', updatePreview);
-        document.addEventListener('click', function(e) {
-            if (activeColorPicker && !activeColorPicker.contains(e.target) && !e.target.classList.contains('color-picker-btn')) {
-                activeColorPicker.classList.remove('active');
-                activeColorPicker = null;
-            }
+
+        const blob = new Blob([fullHTML], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${title.replace(/[^a-zа-яё0-9]/gi, '_')}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert('✅ HTML файл сохранён!');
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, m => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[m]));
+    }
+
+    // Управление переключением между редактором и инструкцией
+    function showInstruction() {
+        document.getElementById('editorContainer').style.display = 'none';
+        document.getElementById('instructionContainer').classList.add('active');
+        document.getElementById('showInstructionBtn').style.display = 'none';
+        document.getElementById('backToEditorBtn').style.display = 'inline-flex';
+    }
+
+    function showEditor() {
+        document.getElementById('editorContainer').style.display = 'grid';
+        document.getElementById('instructionContainer').classList.remove('active');
+        document.getElementById('showInstructionBtn').style.display = 'inline-flex';
+        document.getElementById('backToEditorBtn').style.display = 'none';
+    }
+
+    function init() {
+    initColorPickers();
+    updateImagesContainer();
+    updatePreview();
+
+    // Добавляем обработчик только если кнопка существует
+    const downloadBtn = document.getElementById('downloadOfflineBtn');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            downloadOfflineVersion();
         });
-    </script>
+    }
+
+    const showBtn = document.getElementById('showInstructionBtn');
+    if (showBtn) {
+        showBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            showInstruction();
+        });
+    }
+
+    const backBtn = document.getElementById('backToEditorBtn');
+    if (backBtn) {
+        backBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            showEditor();
+        });
+    }
+}
+
+    init();
+    document.getElementById('guideTitle').addEventListener('input', updatePreview);
+    document.addEventListener('click', function (e) {
+        if (activeColorPicker && !activeColorPicker.contains(e.target) && !e.target.classList.contains('color-picker-btn')) {
+            activeColorPicker.classList.remove('active');
+            activeColorPicker = null;
+        }
+    });
+</script>
 </body>
 </html>
